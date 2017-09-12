@@ -9,3 +9,8 @@ Slack cli notification sender.
 $ notify "Hello!" https://hooks.slack.com/services/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
+## Development
+
+```bash
+make
+```

@@ -1,23 +1,22 @@
 #!/usr/bin/make -f
 
-GO=go
-GB=gb
+# This allows us to have a GOPATH per peroject.
+# Ensuring that we are all building with the same dependencies.
+GOPATH := $(shell pwd):$(shell pwd)/vendor
+export GOPATH
+export CGO_ENABLED=0
 
-all: build
+NAME=notify
+PACKAGE=github.com/nickschuch/$(NAME)
 
-build: clean test
-	@echo "Building..."
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GB) build -ldflags '-w -extld ld -extldflags -static'
+# Build binaries for linux/amd64 and darwin/amd64
+build:
+	gox -os='linux darwin' -arch='amd64' -output='bin/$(NAME)_{{.OS}}_{{.Arch}}' -ldflags='-extldflags "-static"' $(PACKAGE)
 
-build-all: build
-	@echo "Building others..."
-	env GOOS=linux GOARCH=386 $(GB) build
-	env GOOS=darwin GOARCH=amd64 $(GB) build
-	env GOOS=darwin GOARCH=386 $(GB) build
+# Run all lint checking with exit codes for CI
+lint:
+	golint -set_exit_status $(PACKAGE)/...
 
-clean:
-	rm -fR pkg bin
-
+# Run tests with coverage reporting
 test:
-	@echo "Running tests..."
-	@$(GB) test -test.v=true
+	go test -cover $(PACKAGE)/...
