@@ -1,22 +1,27 @@
 #!/usr/bin/make -f
 
-# This allows us to have a GOPATH per peroject.
-# Ensuring that we are all building with the same dependencies.
-GOPATH := $(shell pwd):$(shell pwd)/vendor
-export GOPATH
 export CGO_ENABLED=0
 
-NAME=notify
-PACKAGE=github.com/nickschuch/$(NAME)
+PROJECT=github.com/previousnext/notify
 
-# Build binaries for linux/amd64 and darwin/amd64
+# Builds the project
 build:
-	gox -os='linux darwin' -arch='amd64' -output='bin/$(NAME)_{{.OS}}_{{.Arch}}' -ldflags='-extldflags "-static"' $(PACKAGE)
+		gox -os='linux darwin' -arch='amd64' -output='bin/notify_{{.OS}}_{{.Arch}}' -ldflags='-extldflags "-static"' $(PROJECT)
 
 # Run all lint checking with exit codes for CI
 lint:
-	golint -set_exit_status $(PACKAGE)/...
+		golint -set_exit_status `go list ./... | grep -v /vendor/`
 
 # Run tests with coverage reporting
 test:
-	go test -cover $(PACKAGE)/...
+		go test -cover ./...
+
+IMAGE=previousnext/notify
+VERSION=$(shell git describe --tags --always)
+
+# Releases the project Docker Hub
+release:
+		docker build -t ${IMAGE}:${VERSION} .
+		docker push ${IMAGE}:${VERSION}
+
+.PHONY: build lint test release
