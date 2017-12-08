@@ -1,33 +1,18 @@
-Gopher
+Notify
 ======
 
-[![CircleCI](https://circleci.com/gh/previousnext/CHANGE_ME.svg?style=svg)](https://circleci.com/gh/previousnext/CHANGE_ME)
+Slack cli notification sender.
 
-![Logo](/logo/small.png "Logo")
+## Usage
 
-**Maintainer**: Gopher
-
-This is a brief description on what the project does.
+```bash
+$ notify "Hello!" https://hooks.slack.com/services/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```
 
 ## Development
 
-### Getting started
-
-For steps on getting started with Go:
-
-https://golang.org/doc/install
-
-To get a checkout of the project run the following commands:
-
 ```bash
-# Make sure the parent directories exist.
-mkdir -p $GOPATH/src/github.com/previousnext
-
-# Checkout the codebase.
-git clone git@github.com:previousnext/gopher $GOPATH/src/github.com/previousnext/gopher
-
-# Change into the project to run workflow commands.
-cd $GOPATH/src/github.com/previousnext/gopher
+make
 ```
 
 ### Documentation
