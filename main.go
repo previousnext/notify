@@ -15,9 +15,10 @@ var (
 	cliEmoji   = kingpin.Flag("emoji", "Give your bot a custom image.").Default(":slack:").OverrideDefaultFromEnvar("NOTIFY_EMOJI").String()
 	cliChannel = kingpin.Flag("channel", "Which channel do you wish to post in.").Default("#general").OverrideDefaultFromEnvar("NOTIFY_CHANNEL").String()
 	cliMessage = kingpin.Arg("message", "The message you wish to send.").Required().String()
-	cliUrl     = kingpin.Arg("url", "The url you wish to post to.").Required().String()
+	cliURL     = kingpin.Arg("url", "The url you wish to post to.").Required().String()
 )
 
+// Message is a slack message.
 type Message struct {
 	Username string `json:"username"`
 	Emoji    string `json:"icon_emoji"`
@@ -41,13 +42,14 @@ func main() {
 
 	// Build a request that will be sent to Slack.
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", *cliUrl, bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest("POST", *cliURL, bytes.NewBuffer(jsonStr))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
 	_, err = client.Do(req)
 	Check(err)
 }
 
+// Check the error and print it.
 func Check(e error) {
 	if e != nil {
 		fmt.Println(e)
