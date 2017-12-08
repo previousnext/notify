@@ -6,7 +6,18 @@ Slack cli notification sender.
 ## Usage
 
 ```bash
-$ notify "Hello!" https://hooks.slack.com/services/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+usage: notify [<flags>] <message> <url>
+
+Flags:
+  --help             Show help.
+  --name="Notify"    Name your bot.
+  --emoji=":slack:"  Give your bot a custom image.
+  --channel="#general"
+                     Which channel do you wish to post in.
+
+Args:
+  <message>  The message you wish to send.
+  <url>      The url you wish to post to.
 ```
 
 ## Development
