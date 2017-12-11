@@ -3,19 +3,37 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/alecthomas/template"
+  packages = [".","parse"]
+  revision = "a0175ee3bccc567396460bf5acd36800cb10c49c"
+
+[[projects]]
+  branch = "master"
   name = "github.com/alecthomas/units"
   packages = ["."]
   revision = "2efee857e7cfd4f3d0138cc3cbb1b4966962b93a"
 
 [[projects]]
-  name = "gopkg.in/alecthomas/kingpin.v1"
+  name = "github.com/nlopes/slack"
   packages = ["."]
-  revision = "45f9714aa86a9624491adeaab1e9df1baf84dd38"
-  version = "v1.3.7"
+  revision = "c86337c0ef2486a15edd804355d9c73d2f2caed1"
+  version = "v0.1.0"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = ["websocket"]
+  revision = "dc871a5d77e227f5bbf6545176ef3eeebf87e76e"
+
+[[projects]]
+  name = "gopkg.in/alecthomas/kingpin.v2"
+  packages = ["."]
+  revision = "1087e65c9441605df944fb12c33f0fe7072d18ca"
+  version = "v2.2.5"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "76b055c161fe27f170549a66728a2abe80fc1057978cafaac9c34e81a2fdcb38"
+  inputs-digest = "3c12b104605029dd036e21b057870ccff278bfab7c926936cfec06e63a3728f3"
   solver-name = "gps-cdcl"
   solver-version = 1

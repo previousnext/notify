@@ -1,58 +1,35 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"os"
 
-	"gopkg.in/alecthomas/kingpin.v1"
+	"gopkg.in/alecthomas/kingpin.v2"
+	"github.com/nlopes/slack"
+	"os"
 )
 
 var (
-	cliName    = kingpin.Flag("name", "Name your bot.").Default("Notify").OverrideDefaultFromEnvar("NOTIFY_NAME").String()
-	cliEmoji   = kingpin.Flag("emoji", "Give your bot a custom image.").Default(":slack:").OverrideDefaultFromEnvar("NOTIFY_EMOJI").String()
-	cliChannel = kingpin.Flag("channel", "Which channel do you wish to post in.").Default("#general").OverrideDefaultFromEnvar("NOTIFY_CHANNEL").String()
-	cliMessage = kingpin.Arg("message", "The message you wish to send.").Required().String()
-	cliURL     = kingpin.Arg("url", "The url you wish to post to.").Required().String()
+	cliToken     = kingpin.Flag("token", "Slack token for authentication").Required().Envar("SLACK_TOKEN").String()
+	cliChannel   = kingpin.Flag("channel", "Slack channel for posting updates").Required().Envar("SLACK_CHANNEL").String()
+	cliUsername  = kingpin.Flag("username", "The slack username").Default("M8s").String()
+	cliIconEmoji = kingpin.Flag("icon-emoji", "The slack icon emoji").Default(":m8s:").String()
+	cliMessage   = kingpin.Flag("message", "The slack message").Required().String()
 )
-
-// Message is a slack message.
-type Message struct {
-	Username string `json:"username"`
-	Emoji    string `json:"icon_emoji"`
-	Channel  string `json:"channel"`
-	Text     string `json:"text"`
-}
 
 func main() {
 	kingpin.Parse()
 
-	m := Message{
-		Username: *cliName,
-		Emoji:    *cliEmoji,
-		Channel:  *cliChannel,
-		Text:     *cliMessage,
+	api := slack.New(*cliToken)
+
+	msg := slack.PostMessageParameters{
+		Username:  *cliUsername,
+		IconEmoji: *cliIconEmoji,
 	}
 
-	// Convert the response object into a json string for posting.
-	jsonStr, err := json.Marshal(m)
-	Check(err)
+	_, _, err := api.PostMessage(*cliChannel, *cliMessage, msg)
 
-	// Build a request that will be sent to Slack.
-	client := &http.Client{}
-	req, err := http.NewRequest("POST", *cliURL, bytes.NewBuffer(jsonStr))
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Accept", "application/json")
-	_, err = client.Do(req)
-	Check(err)
-}
-
-// Check the error and print it.
-func Check(e error) {
-	if e != nil {
-		fmt.Println(e)
+	if err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
