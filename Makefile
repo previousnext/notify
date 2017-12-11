@@ -14,7 +14,7 @@ lint:
 
 # Run tests with coverage reporting
 test:
-		go test -cover ./...
+		go test -cover $(go list ./... | grep -v /vendor/)
 
 IMAGE=previousnext/notify
 VERSION=$(shell git describe --tags --always)
