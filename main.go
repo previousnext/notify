@@ -3,10 +3,6 @@ package main
 import (
 	"gopkg.in/alecthomas/kingpin.v2"
 	"github.com/nlopes/slack"
-	"github.com/pkg/errors"
-
-	"fmt"
-	"os"
 )
 
 var (

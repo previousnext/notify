@@ -23,12 +23,6 @@
   version = "v0.1.0"
 
 [[projects]]
-  name = "github.com/pkg/errors"
-  packages = ["."]
-  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
-  version = "v0.8.0"
-
-[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["websocket"]
@@ -43,6 +37,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0f89ffbabe4cf1e5df4f266cba690f76bf56c0f38738aed9d9d442c3b7349e02"
+  inputs-digest = "acc7d92cc13966ee47dac81cd1322af825ea6692b75c814243a0a8554f212e13"
   solver-name = "gps-cdcl"
   solver-version = 1
