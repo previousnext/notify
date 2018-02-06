@@ -41,7 +41,6 @@ func main() {
 	_, _, err := api.PostMessage(*cliChannel, "", msg)
 
 	if err != nil {
-		fmt.Println(errors.Wrap(err, "failed to send slack message"))
-		os.Exit(1)
+		panic(err)
 	}
 }
