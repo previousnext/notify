@@ -18,7 +18,7 @@ func main() {
 	kingpin.Parse()
 
 	api := slack.New(*cliToken)
-	
+
 	attachment := slack.Attachment{
 		Color: *cliColor,
 		Fields: []slack.AttachmentField{
