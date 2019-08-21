@@ -18,23 +18,22 @@ func main() {
 	kingpin.Parse()
 
 	api := slack.New(*cliToken)
-
-	msg := slack.PostMessageParameters{
-		Username:  *cliUsername,
-		IconEmoji: *cliIconEmoji,
-		Attachments: []slack.Attachment{
+	
+	attachment := slack.Attachment{
+		Color: *cliColor,
+		Fields: []slack.AttachmentField{
 			{
-				Color: *cliColor,
-				Fields: []slack.AttachmentField{
-					{
-						Value: *cliMessage,
-					},
-				},
+				Value: *cliMessage,
 			},
 		},
 	}
 
-	channel, ts, err := api.PostMessage(*cliChannel, "", msg)
+	msg := slack.PostMessageParameters{
+		Username:  *cliUsername,
+		IconEmoji: *cliIconEmoji,
+	}
+
+	_, _, err := api.PostMessage(*cliChannel, slack.MsgOptionPostMessageParameters(msg), slack.MsgOptionAttachments(attachment))
 
 	if err != nil {
 		panic(err)
