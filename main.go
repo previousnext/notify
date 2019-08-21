@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gopkg.in/alecthomas/kingpin.v2"
 	"github.com/nlopes/slack"
+	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
@@ -34,7 +34,7 @@ func main() {
 		},
 	}
 
-	_, _, err := api.PostMessage(*cliChannel, "", msg)
+	channel, ts, err := api.PostMessage(*cliChannel, "", msg)
 
 	if err != nil {
 		panic(err)
