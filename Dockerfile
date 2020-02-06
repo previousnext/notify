@@ -18,5 +18,5 @@ RUN go build -o bin/notify main.go
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-COPY --from=builder bin/notify /usr/local/bin/notify
+COPY --from=builder /go/src/github.com/previousnext/notify/bin/notify /usr/local/bin/notify
 CMD ["notify"]
