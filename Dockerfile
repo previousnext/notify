@@ -14,6 +14,7 @@ COPY vendor/ vendor/
 COPY main.go main.go
 
 # Build
+ENV CGO_ENABLED=0
 RUN go build -o bin/notify main.go
 
 FROM alpine:latest

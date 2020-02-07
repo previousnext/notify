@@ -43,5 +43,5 @@ jobs:
             VERSION=$(git describe --tags --always)
             echo "Building version: ${VERSION}"
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker build --pull -t previousnext/${APP_NAME}:${VERSION} $(pwd)
+            docker build --pull -t previousnext/${APP_NAME}:${VERSION} -t previousnext/${APP_NAME}:latest $(pwd)
             docker push previousnext/${APP_NAME}:${VERSION}
