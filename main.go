@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/slack-go/slack"
 	"gopkg.in/alecthomas/kingpin.v2"
-	"github.com/nlopes/slack"
 )
 
 var (
@@ -18,23 +18,12 @@ func main() {
 	kingpin.Parse()
 
 	api := slack.New(*cliToken)
-
-	msg := slack.PostMessageParameters{
-		Username:  *cliUsername,
-		IconEmoji: *cliIconEmoji,
-		Attachments: []slack.Attachment{
-			{
-				Color: *cliColor,
-				Fields: []slack.AttachmentField{
-					{
-						Value: *cliMessage,
-					},
-				},
-			},
-		},
-	}
-
-	_, _, err := api.PostMessage(*cliChannel, "", msg)
+	_, _, err := api.PostMessage(*cliChannel,  slack.MsgOptionAttachments(slack.Attachment{
+		Color:         *cliColor,
+		AuthorName:    *cliUsername,
+		AuthorIcon:    *cliIconEmoji,
+		Text:          *cliMessage,
+	}))
 
 	if err != nil {
 		panic(err)
