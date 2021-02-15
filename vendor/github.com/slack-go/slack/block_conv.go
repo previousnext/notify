@@ -59,6 +59,8 @@ func (b *Blocks) UnmarshalJSON(data []byte) error {
 			block = &DividerBlock{}
 		case "file":
 			block = &FileBlock{}
+		case "header":
+			block = &HeaderBlock{}
 		case "image":
 			block = &ImageBlock{}
 		case "input":
@@ -105,12 +107,20 @@ func (b *InputBlock) UnmarshalJSON(data []byte) error {
 	switch s.TypeVal {
 	case "datepicker":
 		e = &DatePickerBlockElement{}
+	case "timepicker":
+		e = &TimePickerBlockElement{}
 	case "plain_text_input":
 		e = &PlainTextInputBlockElement{}
 	case "static_select", "external_select", "users_select", "conversations_select", "channels_select":
 		e = &SelectBlockElement{}
 	case "multi_static_select", "multi_external_select", "multi_users_select", "multi_conversations_select", "multi_channels_select":
 		e = &MultiSelectBlockElement{}
+	case "checkboxes":
+		e = &CheckboxGroupsBlockElement{}
+	case "overflow":
+		e = &OverflowBlockElement{}
+	case "radio_buttons":
+		e = &RadioButtonsBlockElement{}
 	default:
 		return errors.New("unsupported block element type")
 	}
@@ -175,6 +185,8 @@ func (b *BlockElements) UnmarshalJSON(data []byte) error {
 			blockElement = &PlainTextInputBlockElement{}
 		case "checkboxes":
 			blockElement = &CheckboxGroupsBlockElement{}
+		case "radio_buttons":
+			blockElement = &RadioButtonsBlockElement{}
 		case "static_select", "external_select", "users_select", "conversations_select", "channels_select":
 			blockElement = &SelectBlockElement{}
 		default:
@@ -254,6 +266,12 @@ func (a *Accessory) UnmarshalJSON(data []byte) error {
 			return err
 		}
 		a.DatePickerElement = element.(*DatePickerBlockElement)
+	case "timepicker":
+		element, err := unmarshalBlockElement(r, &TimePickerBlockElement{})
+		if err != nil {
+			return err
+		}
+		a.TimePickerElement = element.(*TimePickerBlockElement)
 	case "plain_text_input":
 		element, err := unmarshalBlockElement(r, &PlainTextInputBlockElement{})
 		if err != nil {
@@ -315,6 +333,9 @@ func toBlockElement(element *Accessory) BlockElement {
 	}
 	if element.DatePickerElement != nil {
 		return element.DatePickerElement
+	}
+	if element.TimePickerElement != nil {
+		return element.TimePickerElement
 	}
 	if element.PlainTextInputElement != nil {
 		return element.PlainTextInputElement
